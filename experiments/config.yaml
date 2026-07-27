@@ -1,0 +1,89 @@
+# training configuration file for melon net segmentation
+
+# データ設定
+data:
+  dir_name: [                           # データセットのディレクトリ 各々パスを書き換える
+    "melon_dataset/0_melon_net/",
+    "melon_dataset/1_melon_net/",
+    "melon_dataset/5_melon_net/",
+  ]
+  batch_size: 23                        # バッチサイズ（ファインチューニング時には小さく設定することが多い）
+  num_workers: 4                        # データローダーのワーカー数
+
+# データ拡張設定
+augmentation:                         # データ拡張設定
+  horizontal_flip:                      # 水平反転
+    enabled: True
+  scaling:                              # スケーリング
+    enabled: True
+    min_scale: 0.8                        # 最小スケール
+    max_scale: 1.2                        # 最大スケール
+  affine_transform:                     # アフィン変換
+    enabled: True
+  #  rotation_range: 45                    # 回転角度の範囲(例：±20度)
+    translate_range: 0.3                  # 平行移動の範囲(例：±10%)
+  elastic_transform:                    # 弾性変形
+    enabled: True
+    alpha: 10                            # 弾性変形の強さ
+    sigma: 100                             # 弾性変形の範囲
+  grid_distortion:                      # グリッド変形
+    enabled: True
+    num_steps: 20                         # ステップ数
+    distort_limit: 0.5                    # 変形の範囲
+  optical_distortion:                   # オプティカルディストーション
+    enabled: True
+    distort_limit: 1.00                    # 変形の範囲
+  blur:                                 # ぼかし
+    enabled: True
+    blur_limit: 7                         # ぼかしの範囲
+  gaussian_noise:                       # ガウシアンノイズ
+    enabled: True
+    var_limit: 100                         # ノイズの強さ
+  hue_saturation_value:                 # 色相飽和度値
+    enabled: True
+    hue_shift_limit: 50                   # 色相の範囲
+    sat_shift_limit: 100                   # 飽和度の範囲
+    val_shift_limit: 50                   # 明度の範囲
+  rgb_shift:                            # RGBシフト
+    enabled: True
+    r_shift_limit: 50                     # Rチャネルの範囲
+    g_shift_limit: 50                     # Gチャネルの範囲
+    b_shift_limit: 50                     # Bチャネルの範囲
+  random_erasing:
+    enabled: False                     # ランダムイレイジング
+
+# モデル設定
+model:
+  name: "UNet"                    # モデルタイプ（UNet）
+  #name: "DeepLabV3Plus"            # モデルタイプ（DeepLabV3Plus）
+  #name: "UnetPlusPlus"            # モデルタイプ（UnetPlusPlus）
+  #name: "SegFormer"              # モデルタイプ（SegFormer）
+  encoder_name: "resnet34"           # エンコーダ（resnet34） U-Net, U-Net++, DeepLabV3Plus
+  #encoder_name: "resnet50"           # エンコーダ（resnet50）
+  #encoder_name: "mit_b0"           # エンコーダ（mit_b2）
+  encoder_weights: "imagenet"       # 事前学習済みモデルの利用
+
+# トレーニング設定
+train:
+  epochs: 3500                     # エポック数
+  loss_function: DiceLoss           # 損失関数（DiceLoss）
+  #loss_function: DiceBCELoss
+  optimizer:                        # オプティマイザ設定
+    name: "Adam"                      # オプティマイザの種類（Adamなど）
+    #learning_rate: 0.0001            # 学習率
+    learning_rate:  0.0000042667      # 学習率（U-Netチューニング結果）
+  early_stopping:            # 早期学習
+    enabled: True
+    patience: 50
+  lr_scheduler:
+    name: "ReduceLROnPlateau"
+    factor: 0.5
+    patience: 10
+
+# ログ・チェックポイント設定
+log:
+  dir_name: "experiments/results/"  # ログ/チェックポイントを保存するディレクトリ
+
+# その他の設定
+device: "cuda"                     # 使用するデバイス（cudaまたはcpu）
+seed: 42                           # 乱数シード

@@ -1,0 +1,6 @@
+path: fruit-engine/yolo_dataset
+train: images/train
+val: images/val
+
+names:
+  0: melon

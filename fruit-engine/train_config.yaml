@@ -1,0 +1,28 @@
+# fruit-engine/train.py 用の学習設定ファイル
+# net-engine側の experiments/config.yaml とは別管理
+
+# 使用モデル
+model:
+  weights: "yolo11n-seg.pt"   # 初期重み（事前学習済みモデル）
+  pretrained: true
+
+# Ultralytics形式のデータセット定義ファイル（dataset.pyの出力先と対応させる）
+data: "fruit-engine/melon_seg.yaml"
+
+# 学習設定
+train:
+  task: "segment"
+  epochs: 200
+  imgsz: 640
+  batch: 4
+  lr0: 0.001
+  patience: 50
+  cos_lr: true
+  optimizer: "ADAMW"
+  verbose: true
+  seed: 42
+
+# ログ・チェックポイント設定
+log:
+  project: "fruit-engine/results/runs"
+  name: "yolo11n-seg-melon"

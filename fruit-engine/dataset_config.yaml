@@ -1,0 +1,17 @@
+# fruit-engine/dataset.py 用のデータセット生成設定ファイル
+
+# 入力: 画像ディレクトリとマスクディレクトリを各々指定する
+datasets:
+  - images: "dataset/image"
+    masks: "dataset/mask"
+
+# 出力: YOLO11セグメンテーション用データセットの生成先
+output_dir: "fruit-engine/yolo_dataset"
+
+# train/val分割設定
+split:
+  train_ratio: 0.8
+  seed: 42
+
+# 対象とする画像の拡張子
+extensions: [".jpg", ".jpeg", ".png"]

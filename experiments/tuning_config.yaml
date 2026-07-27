@@ -1,0 +1,95 @@
+- name: data.batch_size
+  type: int
+  low: 4
+  high: 32
+
+- name: train.optimizer.learning_rate
+  type: float
+  low: 0.000001
+  high: 0.001
+  log: True
+
+- name: augmentation.scaling.min_scale
+  type: float
+  low: 0.3
+  high: 1.0
+
+- name: augmentation.scaling.max_scale
+  type: float
+  low: 1.0
+  high: 1.8
+
+- name: augmentation.affine_transform.rotation_range
+  type: int
+  low: 0
+  high: 60
+
+- name: augmentation.affine_transform.translate_range
+  type: float
+  low: 0.0
+  high: 0.5
+
+- name: augmentation.elastic_transform.alpha
+  type: int
+  low: 1
+  high: 20
+
+- name: augmentation.elastic_transform.sigma
+  type: float
+  low: 50
+  high: 200
+
+- name: augmentation.grid_distortion.num_steps
+  type: int
+  low: 10
+  high: 30
+
+- name: augmentation.grid_distortion.distort_limit
+  type: float
+  low: 0.0
+  high: 0.70
+
+- name: augmentation.optical_distortion.distort_limit
+  type: float
+  low: 0.0
+  high: 1.20
+
+- name: augmentation.blur.blur_limit
+  type: int
+  low: 1
+  high: 19
+
+- name: augmentation.gaussian_noise.var_limit
+  type: int
+  low: 0
+  high: 200
+
+- name: augmentation.hue_saturation_value.hue_shift_limit
+  type: int
+  low: 0
+  high: 70
+
+- name: augmentation.hue_saturation_value.sat_shift_limit
+  type: int
+  low: 0
+  high: 120
+
+- name: augmentation.hue_saturation_value.val_shift_limit
+  type: int
+  low: 0
+  high: 70
+
+- name: augmentation.rgb_shift.r_shift_limit
+  type: int
+  low: 0
+  high: 70
+
+- name: augmentation.rgb_shift.g_shift_limit
+  type: int
+  low: 0
+  high: 70
+
+- name: augmentation.rgb_shift.b_shift_limit
+  type: int
+  low: 0
+  high: 70
