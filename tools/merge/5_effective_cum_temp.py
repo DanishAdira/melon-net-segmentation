@@ -44,16 +44,7 @@ if __name__ == "__main__":
         hcomp_thr: float,
         use_hcomp: bool,
     ) -> tuple[int | None, str]:
-        """
-        以下のいずれかを最初に満たした days_after_pollination を返す。
-          - overall_density > density_thr
-          - v_component     > vcomp_thr
-          - h_component     > hcomp_thr  （use_hcomp=True のときのみ）
 
-        Returns
-        -------
-        (onset_day, trigger_reason)
-        """
         candidates = []  # (day, reason)
 
         if "overall_density" in group.columns:
@@ -80,10 +71,6 @@ if __name__ == "__main__":
         best_day, reason = min(candidates, key=lambda x: x[0])
         return int(best_day), reason
 
-    # =============================================================================
-    # 起点別の累積列を生成するヘルパー
-    # =============================================================================
-
     def cumulate_from_posting(
         series: pd.Series,
         days: pd.Series,
@@ -109,8 +96,8 @@ if __name__ == "__main__":
     ) -> pd.Series:
         """
         網目発生日の estimated_volume_px3 を基準(1.0)とした相対肥大度を返す。
-        posting_day より前は NaN。
-        posting_day 当日は 1.0。
+        posting_day より前は NaN
+        posting_day 当日は 1.0
         """
         result = pd.Series(np.nan, index=volume.index)
         posting_idx = days.index[days == posting_day]
@@ -125,17 +112,12 @@ if __name__ == "__main__":
         result[mask] = (volume[mask] / base_vol).round(6)
         return result
 
-    # =============================================================================
-    # 個体ごとに積算値を算出
-    # =============================================================================
-
     all_frames = []
 
     for melon_id, group in df.groupby("melon", sort=True):
         group = group.sort_values("days_after_pollination").reset_index(drop=True)
         days  = group["days_after_pollination"]
 
-        # ── 有効積温の日次寄与
         eff_temp  = (group["temperature"] - args.base_temperature).clip(lower=0)
         # ── 照度の日次値（負値は0に）
         eff_light = group["i_v_light"].clip(lower=0)

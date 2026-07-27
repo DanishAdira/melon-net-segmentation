@@ -333,12 +333,10 @@ if __name__ == "__main__":
         print(f"Applying start date filter (Excluding data before {args.start_date})...")
         selected_image_paths = filter_by_start_date(selected_image_paths, args.start_date)
 
-    # 収穫日以降のデータ除外
     if args.harvest_date:
         print(f"Applying harvest date filter (Excluding data on or after {args.harvest_date})...")
         selected_image_paths = filter_by_harvest_date(selected_image_paths, args.harvest_date)
 
-    # 計算実行
     if selected_image_paths:
         calculate_all_metrics(
             image_paths=selected_image_paths, output_path=args.output_path,
