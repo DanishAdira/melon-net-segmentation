@@ -178,7 +178,7 @@ python tools/merge/5_effective_cum_temp.py \
     --input_csv daily.csv --output_csv daily_with_temp.csv
 ```
 
-### 5. 動画化（tools/movie）
+### 動画化（tools/movie）
 
 - 指標の推移と画像を組み合わせたタイムラプス動画を作成します．
 
